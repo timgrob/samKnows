@@ -1,0 +1,29 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    #parameter_name: value
+
+services:
+    app.json_parser:
+        class: AppBundle\Parser\JsonParser
+        arguments: []
+
+    app.metric_statistics:
+        class: AppBundle\Statistics\MetricStatistics
+        arguments: ['@app.metric_entity_repository']
+
+    app.unit_entity_repository:
+        class: AppBundle\Repository\UnitRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+              - AppBundle\Entity\Unit
+
+    app.metric_entity_repository:
+            class: AppBundle\Repository\MetricRepository
+            factory: ["@doctrine", getRepository]
+            arguments:
+                - AppBundle\Entity\Metric
+
+    #service_name:
+    #    class: AppBundle\Directory\ClassName
+    #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
